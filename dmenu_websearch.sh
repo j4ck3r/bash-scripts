@@ -22,15 +22,8 @@ else
 fi
 ############## End options
 
-# Getting the names from the list above
-names=()
-for ((i = 0; i < ${#searchengines[@]}; i++))
-do
-    names+=($(echo ${searchengines[i]} | cut -d' ' -f1)) 
-done
-
 # User can choose whiche engine to take
-engine=$(for name in ${names[@]}; do echo $name; done | dmenu -l ${#names[@]} -i)
+engine=$(printf "%s\n" "${!searchengines[@]}" | dmenu -l ${#searchengines[@]} -i)
 
 # When no searchengine is selected, exit:
 if [ -z $engine ]
@@ -39,20 +32,11 @@ then
 fi
 
 # Searching for the right url
-url=""
-for ((i = 0; i < ${#searchengines[@]}; i++))
-do
-    current=($(echo ${searchengines[i]} | tr " " "\n")) 
-    if [[ ${current[0]} = $engine ]]
-    then
-        url=${current[1]}
-        break
-    fi
-done
+url=${searchengines[$engine]}
 
 # Propting for the search term
-prompt="${engine}: Enter search query"
-query=$(echo $prompt | dmenu -l 1 | tr " " "+")
+prompt="${engine}: "
+query=$(echo "" | dmenu -p $prompt | tr " " "+")
 if [[ ! $query == $prompt ]] && [ ! -z $query ]
 then
     $browser "${url}${query}"
