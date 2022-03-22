@@ -7,4 +7,4 @@ then
     exit 0
 fi
 
-ranger --selectfile=$f
+ranger --selectfile="$f"
