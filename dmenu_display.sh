@@ -9,7 +9,7 @@ then
     exit 0
 fi
 
-connected=$(xrandr --current | grep \ connected | grep -v $primary | awk '{ print $1 }')
+connected=$(xrandr --current | grep \ connected | awk '{ print $1 }')
 if [[ -z $connected ]]
 then
     exit 0

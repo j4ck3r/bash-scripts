@@ -7,7 +7,7 @@
 folder_options=(
     "/mnt"
 )
-devices_available=$(lsblk -lnp | grep "part $"  | awk '{ print $1 " ("$4")"}')
+devices_available=$(lsblk -lnp | grep "part" | grep -v "part  /" | awk '{ print $1 " ("$4")"}')
 device=$(echo "$devices_available" | dmenu -l 10 | awk '{ print $1 }')
 if [[ -z $device ]]
 then
